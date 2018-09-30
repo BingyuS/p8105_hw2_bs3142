@@ -27,6 +27,8 @@ my_nyc_transit_data =
 ```{r}
 my_wheel_data =
   readxl::read_excel("./data/HealthyHarborWaterWheelTotals2017-9-26.xlsx", sheet = 1, range = ("A2:N258")) %>%
-  janitor::clean_names()
+  janitor::clean_names() %>%
+  filter(!is.na(dumpster)) %>%
+  mutate(sports_balls = as.integer(sports_balls))
 ```
 
