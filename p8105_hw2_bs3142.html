@@ -198,7 +198,8 @@ $(document).ready(function () {
   mutate(year = &quot;2016&quot;) %&gt;%
   filter(!is.na(month), !is.na(precipitation_in))</code></pre>
 <pre class="r"><code>my_combined_precip_data =
-  bind_rows(my_precip_2016_data, my_precip_2017_data) </code></pre>
+  bind_rows(my_precip_2016_data, my_precip_2017_data) %&gt;%
+  mutate(month = month.name[month])</code></pre>
 </div>
 
 

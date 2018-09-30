@@ -55,6 +55,7 @@ my_precip_2016_data =
 
 ```{r}
 my_combined_precip_data =
-  bind_rows(my_precip_2016_data, my_precip_2017_data) 
+  bind_rows(my_precip_2016_data, my_precip_2017_data) %>%
+  mutate(month = month.name[month])
 ```
 
