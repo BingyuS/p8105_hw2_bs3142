@@ -186,15 +186,19 @@ $(document).ready(function () {
   mutate(sports_balls = as.integer(sports_balls))</code></pre>
 <p>Question 2</p>
 <pre class="r"><code>my_precip_2017_data = 
-  readxl::read_excel(&quot;./data/HealthyHarborWaterWheelTotals2017-9-26.xlsx&quot;, sheet = 3) %&gt;%
+  readxl::read_excel(&quot;./data/HealthyHarborWaterWheelTotals2017-9-26.xlsx&quot;, sheet = 3, skip = 1) %&gt;%
   janitor::clean_names() %&gt;%
+  rename(precipitation_in = total) %&gt;%
   mutate(year = &quot;2017&quot;) %&gt;%
-  filter(!is.na(precipitation_in), !is.na(x_1))</code></pre>
+  filter(!is.na(month), !is.na(precipitation_in))</code></pre>
 <pre class="r"><code>my_precip_2016_data =
-  readxl::read_excel(&quot;./data/HealthyHarborWaterWheelTotals2017-9-26.xlsx&quot;, sheet = 4) %&gt;%
+  readxl::read_excel(&quot;./data/HealthyHarborWaterWheelTotals2017-9-26.xlsx&quot;, sheet = 4, skip = 1) %&gt;%
   janitor::clean_names() %&gt;%
+  rename(precipitation_in = total) %&gt;%
   mutate(year = &quot;2016&quot;) %&gt;%
-  filter(!is.na(precipitation_in))</code></pre>
+  filter(!is.na(month), !is.na(precipitation_in))</code></pre>
+<pre class="r"><code>my_combined_precip_data =
+  bind_rows(my_precip_2016_data, my_precip_2017_data) </code></pre>
 </div>
 
 

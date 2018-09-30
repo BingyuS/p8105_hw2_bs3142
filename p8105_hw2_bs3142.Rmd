@@ -37,17 +37,24 @@ my_wheel_data =
 Question 2
 ```{r}
 my_precip_2017_data = 
-  readxl::read_excel("./data/HealthyHarborWaterWheelTotals2017-9-26.xlsx", sheet = 3) %>%
+  readxl::read_excel("./data/HealthyHarborWaterWheelTotals2017-9-26.xlsx", sheet = 3, skip = 1) %>%
   janitor::clean_names() %>%
+  rename(precipitation_in = total) %>%
   mutate(year = "2017") %>%
-  filter(!is.na(precipitation_in), !is.na(x_1))
+  filter(!is.na(month), !is.na(precipitation_in))
 ```
 
 ```{r}
 my_precip_2016_data =
-  readxl::read_excel("./data/HealthyHarborWaterWheelTotals2017-9-26.xlsx", sheet = 4) %>%
+  readxl::read_excel("./data/HealthyHarborWaterWheelTotals2017-9-26.xlsx", sheet = 4, skip = 1) %>%
   janitor::clean_names() %>%
+  rename(precipitation_in = total) %>%
   mutate(year = "2016") %>%
-  filter(!is.na(precipitation_in))
+  filter(!is.na(month), !is.na(precipitation_in))
+```
+
+```{r}
+my_combined_precip_data =
+  bind_rows(my_precip_2016_data, my_precip_2017_data) 
 ```
 
