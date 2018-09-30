@@ -24,11 +24,30 @@ my_nyc_transit_data =
 ```
 
 ## Problem 2
+
+Question 1
 ```{r}
 my_wheel_data =
   readxl::read_excel("./data/HealthyHarborWaterWheelTotals2017-9-26.xlsx", sheet = 1, range = ("A2:N258")) %>%
   janitor::clean_names() %>%
   filter(!is.na(dumpster)) %>%
   mutate(sports_balls = as.integer(sports_balls))
+```
+
+Question 2
+```{r}
+my_precip_2017_data = 
+  readxl::read_excel("./data/HealthyHarborWaterWheelTotals2017-9-26.xlsx", sheet = 3) %>%
+  janitor::clean_names() %>%
+  mutate(year = "2017") %>%
+  filter(!is.na(precipitation_in), !is.na(x_1))
+```
+
+```{r}
+my_precip_2016_data =
+  readxl::read_excel("./data/HealthyHarborWaterWheelTotals2017-9-26.xlsx", sheet = 4) %>%
+  janitor::clean_names() %>%
+  mutate(year = "2016") %>%
+  filter(!is.na(precipitation_in))
 ```
 

@@ -178,11 +178,23 @@ $(document).ready(function () {
 </div>
 <div id="problem-2" class="section level2">
 <h2>Problem 2</h2>
+<p>Question 1</p>
 <pre class="r"><code>my_wheel_data =
   readxl::read_excel(&quot;./data/HealthyHarborWaterWheelTotals2017-9-26.xlsx&quot;, sheet = 1, range = (&quot;A2:N258&quot;)) %&gt;%
   janitor::clean_names() %&gt;%
   filter(!is.na(dumpster)) %&gt;%
   mutate(sports_balls = as.integer(sports_balls))</code></pre>
+<p>Question 2</p>
+<pre class="r"><code>my_precip_2017_data = 
+  readxl::read_excel(&quot;./data/HealthyHarborWaterWheelTotals2017-9-26.xlsx&quot;, sheet = 3) %&gt;%
+  janitor::clean_names() %&gt;%
+  mutate(year = &quot;2017&quot;) %&gt;%
+  filter(!is.na(precipitation_in), !is.na(x_1))</code></pre>
+<pre class="r"><code>my_precip_2016_data =
+  readxl::read_excel(&quot;./data/HealthyHarborWaterWheelTotals2017-9-26.xlsx&quot;, sheet = 4) %&gt;%
+  janitor::clean_names() %&gt;%
+  mutate(year = &quot;2016&quot;) %&gt;%
+  filter(!is.na(precipitation_in))</code></pre>
 </div>
 
 
