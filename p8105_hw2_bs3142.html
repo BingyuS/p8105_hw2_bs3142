@@ -179,7 +179,7 @@ $(document).ready(function () {
 <div id="problem-2" class="section level2">
 <h2>Problem 2</h2>
 <pre class="r"><code>my_wheel_data =
-  readxl::read_excel(&quot;./data/HealthyHarborWaterWheelTotals2017-9-26.xlsx&quot;) %&gt;%
+  readxl::read_excel(&quot;./data/HealthyHarborWaterWheelTotals2017-9-26.xlsx&quot;, sheet = 1, range = (&quot;A2:N258&quot;)) %&gt;%
   janitor::clean_names()</code></pre>
 </div>
 

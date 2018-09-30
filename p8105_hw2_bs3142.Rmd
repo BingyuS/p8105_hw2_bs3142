@@ -26,7 +26,7 @@ my_nyc_transit_data =
 ## Problem 2
 ```{r}
 my_wheel_data =
-  readxl::read_excel("./data/HealthyHarborWaterWheelTotals2017-9-26.xlsx") %>%
+  readxl::read_excel("./data/HealthyHarborWaterWheelTotals2017-9-26.xlsx", sheet = 1, range = ("A2:N258")) %>%
   janitor::clean_names()
 ```
 
