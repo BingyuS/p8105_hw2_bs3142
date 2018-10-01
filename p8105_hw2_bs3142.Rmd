@@ -76,3 +76,15 @@ my_brfss_data =
   mutate(prop_excellent_and_very_good = (excellent + very_good))
 ```
 
+```{r}
+skimr::skim(my_brfss_data)
+```
+
+```{r}
+hist_excellent_2002 = 
+  select(my_brfss_data, year, excellent) %>%
+  filter(year == "2002") %>%
+  ggplot(aes(x = excellent)) +
+  geom_histogram()
+```
+
