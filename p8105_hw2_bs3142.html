@@ -192,7 +192,9 @@ data(brfss_smart2010)</code></pre>
 <pre class="r"><code>my_brfss_data = 
   brfss_smart2010 %&gt;%
   janitor::clean_names() %&gt;%
-  select(-(class:question), -sample_size, -(confidence_limit_low:geo_location)) </code></pre>
+  filter(topic == &quot;Overall Health&quot;) %&gt;%
+  select(-(class:question), -sample_size, -(confidence_limit_low:geo_location)) %&gt;%
+  spread(key = response, value = data_value)</code></pre>
 </div>
 
 
