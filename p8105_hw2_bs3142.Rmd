@@ -88,3 +88,12 @@ hist_excellent_2002 =
   geom_histogram()
 ```
 
+Scatterplot
+```{r}
+sp_excellent_nyc_qc_2002_2010 =
+  select(my_brfss_data, year, locationdesc, excellent) %>%
+  filter(locationdesc %in% c("NY - New York County", "NY - Queens County")) %>%
+  ggplot(aes(x = year, y = excellent)) +
+  geom_point()
+```
+

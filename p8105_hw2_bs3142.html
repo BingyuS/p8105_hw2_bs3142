@@ -233,6 +233,12 @@ data(brfss_smart2010)</code></pre>
   filter(year == &quot;2002&quot;) %&gt;%
   ggplot(aes(x = excellent)) +
   geom_histogram()</code></pre>
+<p>Scatterplot</p>
+<pre class="r"><code>sp_excellent_nyc_qc_2002_2010 =
+  select(my_brfss_data, year, locationdesc, excellent) %&gt;%
+  filter(locationdesc %in% c(&quot;NY - New York County&quot;, &quot;NY - Queens County&quot;)) %&gt;%
+  ggplot(aes(x = year, y = excellent)) +
+  geom_point()</code></pre>
 </div>
 
 
