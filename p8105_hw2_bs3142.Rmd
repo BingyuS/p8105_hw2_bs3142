@@ -71,6 +71,8 @@ my_brfss_data =
   janitor::clean_names() %>%
   filter(topic == "Overall Health") %>%
   select(-(class:question), -sample_size, -(confidence_limit_low:geo_location)) %>%
-  spread(key = response, value = data_value)
+  spread(key = response, value = data_value) %>%
+  janitor::clean_names() %>%
+  mutate(prop_excellent_and_very_good = (excellent + very_good))
 ```
 

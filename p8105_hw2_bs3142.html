@@ -194,7 +194,9 @@ data(brfss_smart2010)</code></pre>
   janitor::clean_names() %&gt;%
   filter(topic == &quot;Overall Health&quot;) %&gt;%
   select(-(class:question), -sample_size, -(confidence_limit_low:geo_location)) %&gt;%
-  spread(key = response, value = data_value)</code></pre>
+  spread(key = response, value = data_value) %&gt;%
+  janitor::clean_names() %&gt;%
+  mutate(prop_excellent_and_very_good = (excellent + very_good))</code></pre>
 </div>
 
 
