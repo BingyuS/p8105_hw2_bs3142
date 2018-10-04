@@ -30,22 +30,15 @@ Section 2
 
 Write a short paragraph about this dataset – explain briefly what variables the dataset contains, describe your data cleaning steps so far, and give the dimension (rows x columns) of the resulting dataset. Are these data tidy?
 
-```{r}
-nrow(my_nyc_transit_data)
-ncol(my_nyc_transit_data)
-dim(my_nyc_transit_data)
-```
-
-The dataset consists of line, station name, station latitude and longitude, routes, entry, vending, entrance type, and ada. 
+The dataset consists of line, station name, station latitude and longitude, routes, entry, vending, entrance type, and ada. There are `r nrow(my_nyc_transit_data)` rows by `r ncol(my_nyc_transit_data)` columns.
 
 Section 3
 
 ```{r}
 my_nyc_transit_data2 = 
   my_nyc_transit_data %>%
-  distinct(line, station_name, .keep_all = TRUE)
-
-filter(my_nyc_transit_data2, ada == "TRUE")
+  distinct(line, station_name, .keep_all = TRUE) %>%
+  filter(ada == "TRUE")
 
 my_nyc_transit_data3 =
   my_nyc_transit_data %>%
@@ -54,9 +47,12 @@ my_nyc_transit_data3 =
 
 ```
 
+There are 465 distinct train stations, and 84 of them are ada compliant. 0.0369379
+
+
 Section 4
 
-```{r}
+```{r reformat my nyc transit data}
 tidy_my_nyc_transit_data =
   my_nyc_transit_data %>%
   gather(key = "route_number", value = "route_name", route1:route11) %>%
@@ -65,7 +61,7 @@ tidy_my_nyc_transit_data =
   filter(ada == "TRUE")
 ```
 
-60, 17
+There are 60 distinct stations serve Train A, and 17 of them are ADA compliant.
 
 ## Problem 2
 
