@@ -73,7 +73,7 @@ There are 60 distinct stations serve Train A, and 17 of them are ADA compliant.
 Question 1
 ```{r}
 my_wheel_data =
-  readxl::read_excel("./data/HealthyHarborWaterWheelTotals2017-9-26.xlsx", sheet = 1, range = ("A2:N258")) %>%
+  readxl::read_excel("./data/HealthyHarborWaterWheelTotals2018-7-28.xlsx", sheet = 1, range = ("A2:N338")) %>%
   janitor::clean_names() %>%
   filter(!is.na(dumpster)) %>%
   mutate(sports_balls = as.integer(sports_balls))
@@ -82,7 +82,7 @@ my_wheel_data =
 Question 2
 ```{r}
 my_precip_2017_data = 
-  readxl::read_excel("./data/HealthyHarborWaterWheelTotals2017-9-26.xlsx", sheet = 3, skip = 1) %>%
+  readxl::read_excel("./data/HealthyHarborWaterWheelTotals2018-7-28.xlsx", sheet = 4, skip = 1) %>%
   janitor::clean_names() %>%
   rename(precipitation_in = total) %>%
   mutate(year = "2017") %>%
@@ -91,7 +91,7 @@ my_precip_2017_data =
 
 ```{r}
 my_precip_2016_data =
-  readxl::read_excel("./data/HealthyHarborWaterWheelTotals2017-9-26.xlsx", sheet = 4, skip = 1) %>%
+  readxl::read_excel("./data/HealthyHarborWaterWheelTotals2018-7-28.xlsx", sheet = 5, skip = 1) %>%
   janitor::clean_names() %>%
   rename(precipitation_in = total) %>%
   mutate(year = "2016") %>%

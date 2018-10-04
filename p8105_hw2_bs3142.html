@@ -193,19 +193,19 @@ nrow(distinct_my_nyc_transit_data)</code></pre>
 <h2>Problem 2</h2>
 <p>Question 1</p>
 <pre class="r"><code>my_wheel_data =
-  readxl::read_excel(&quot;./data/HealthyHarborWaterWheelTotals2017-9-26.xlsx&quot;, sheet = 1, range = (&quot;A2:N258&quot;)) %&gt;%
+  readxl::read_excel(&quot;./data/HealthyHarborWaterWheelTotals2018-7-28.xlsx&quot;, sheet = 1, range = (&quot;A2:N338&quot;)) %&gt;%
   janitor::clean_names() %&gt;%
   filter(!is.na(dumpster)) %&gt;%
   mutate(sports_balls = as.integer(sports_balls))</code></pre>
 <p>Question 2</p>
 <pre class="r"><code>my_precip_2017_data = 
-  readxl::read_excel(&quot;./data/HealthyHarborWaterWheelTotals2017-9-26.xlsx&quot;, sheet = 3, skip = 1) %&gt;%
+  readxl::read_excel(&quot;./data/HealthyHarborWaterWheelTotals2018-7-28.xlsx&quot;, sheet = 4, skip = 1) %&gt;%
   janitor::clean_names() %&gt;%
   rename(precipitation_in = total) %&gt;%
   mutate(year = &quot;2017&quot;) %&gt;%
   filter(!is.na(month), !is.na(precipitation_in))</code></pre>
 <pre class="r"><code>my_precip_2016_data =
-  readxl::read_excel(&quot;./data/HealthyHarborWaterWheelTotals2017-9-26.xlsx&quot;, sheet = 4, skip = 1) %&gt;%
+  readxl::read_excel(&quot;./data/HealthyHarborWaterWheelTotals2018-7-28.xlsx&quot;, sheet = 5, skip = 1) %&gt;%
   janitor::clean_names() %&gt;%
   rename(precipitation_in = total) %&gt;%
   mutate(year = &quot;2016&quot;) %&gt;%
