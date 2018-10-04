@@ -164,16 +164,22 @@ $(document).ready(function () {
 <p>Write a short paragraph about this dataset – explain briefly what variables the dataset contains, describe your data cleaning steps so far, and give the dimension (rows x columns) of the resulting dataset. Are these data tidy?</p>
 <p>The dataset consists of line, station name, station latitude and longitude, routes, entry, vending, entrance type, and ada. There are 1868 rows by 19 columns.</p>
 <p>Section 3</p>
-<pre class="r"><code>my_nyc_transit_data2 = 
+<pre class="r"><code>distinct_my_nyc_transit_data = 
   my_nyc_transit_data %&gt;%
-  distinct(line, station_name, .keep_all = TRUE) %&gt;%
-  filter(ada == &quot;TRUE&quot;)
+  distinct(line, station_name, .keep_all = TRUE)
 
-my_nyc_transit_data3 =
-  my_nyc_transit_data %&gt;%
-  filter(vending == &quot;NO&quot;, entry == &quot;TRUE&quot;) %&gt;%
-  nrow() / nrow(my_nyc_transit_data)</code></pre>
-<p>There are 465 distinct train stations, and 84 of them are ada compliant. 0.0369379</p>
+nrow(distinct_my_nyc_transit_data)</code></pre>
+<pre><code>## [1] 465</code></pre>
+<pre class="r"><code>distinct_my_nyc_transit_data %&gt;%
+  filter(ada == &quot;TRUE&quot;) %&gt;%
+  count</code></pre>
+<pre><code>## # A tibble: 1 x 1
+##       n
+##   &lt;int&gt;
+## 1    84</code></pre>
+<pre class="r"><code>nrow(filter(my_nyc_transit_data, vending == &quot;NO&quot;, entry == &quot;TRUE&quot;)) / nrow(filter(my_nyc_transit_data, vending == &quot;NO&quot;))</code></pre>
+<pre><code>## [1] 0.3770492</code></pre>
+<p>There are 465 distinct train stations, and 84 of them are ada compliant. 0.0377</p>
 <p>Section 4</p>
 <pre class="r"><code>tidy_my_nyc_transit_data =
   my_nyc_transit_data %&gt;%
