@@ -57,10 +57,15 @@ my_nyc_transit_data3 =
 Section 4
 
 ```{r}
-my_nyc_transit_data4 =
+tidy_my_nyc_transit_data =
   my_nyc_transit_data %>%
-  distinct(line, station_name, .keep_all = TRUE)
+  gather(key = "route_number", value = "route_name", route1:route11) %>%
+  distinct(line, station_name, .keep_all = TRUE) %>%
+  filter(route_name == "A") %>%
+  filter(ada == "TRUE")
 ```
+
+60, 17
 
 ## Problem 2
 

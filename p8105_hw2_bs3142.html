@@ -197,9 +197,13 @@ filter(my_nyc_transit_data2, ada == &quot;TRUE&quot;)</code></pre>
   filter(vending == &quot;NO&quot;, entry == &quot;TRUE&quot;) %&gt;%
   nrow() / nrow(my_nyc_transit_data)</code></pre>
 <p>Section 4</p>
-<pre class="r"><code>my_nyc_transit_data4 =
+<pre class="r"><code>tidy_my_nyc_transit_data =
   my_nyc_transit_data %&gt;%
-  distinct(line, station_name, .keep_all = TRUE)</code></pre>
+  gather(key = &quot;route_number&quot;, value = &quot;route_name&quot;, route1:route11) %&gt;%
+  distinct(line, station_name, .keep_all = TRUE) %&gt;%
+  filter(route_name == &quot;A&quot;) %&gt;%
+  filter(ada == &quot;TRUE&quot;)</code></pre>
+<p>60, 17</p>
 </div>
 <div id="problem-2" class="section level2">
 <h2>Problem 2</h2>
