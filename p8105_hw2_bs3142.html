@@ -139,6 +139,7 @@ $(document).ready(function () {
 ## ✖ dplyr::lag()    masks stats::lag()</code></pre>
 <div id="problem-1" class="section level2">
 <h2>Problem 1</h2>
+<p>Section 1</p>
 <pre class="r"><code>my_nyc_transit_data = 
   read_csv(&quot;./data/NYC_Transit_Subway_Entrance_And_Exit_Data.csv&quot;) %&gt;%
   janitor::clean_names() %&gt;%
@@ -159,6 +160,46 @@ $(document).ready(function () {
 ##   `Entrance Longitude` = col_double()
 ## )</code></pre>
 <pre><code>## See spec(...) for full column specifications.</code></pre>
+<p>Section 2</p>
+<p>Write a short paragraph about this dataset – explain briefly what variables the dataset contains, describe your data cleaning steps so far, and give the dimension (rows x columns) of the resulting dataset. Are these data tidy?</p>
+<pre class="r"><code>nrow(my_nyc_transit_data)</code></pre>
+<pre><code>## [1] 1868</code></pre>
+<pre class="r"><code>ncol(my_nyc_transit_data)</code></pre>
+<pre><code>## [1] 19</code></pre>
+<pre class="r"><code>dim(my_nyc_transit_data)</code></pre>
+<pre><code>## [1] 1868   19</code></pre>
+<p>The dataset consists of line, station name, station latitude and longitude, routes, entry, vending, entrance type, and ada.</p>
+<p>Section 3</p>
+<pre class="r"><code>my_nyc_transit_data2 = 
+  my_nyc_transit_data %&gt;%
+  distinct(line, station_name, .keep_all = TRUE)
+
+filter(my_nyc_transit_data2, ada == &quot;TRUE&quot;)</code></pre>
+<pre><code>## # A tibble: 84 x 19
+##    line  station_name station_latitude station_longitu… route1 route2
+##    &lt;chr&gt; &lt;chr&gt;                   &lt;dbl&gt;            &lt;dbl&gt; &lt;chr&gt;  &lt;chr&gt; 
+##  1 4 Av… Atlantic Av…             40.7            -74.0 B      Q     
+##  2 4 Av… DeKalb Av                40.7            -74.0 B      Q     
+##  3 4 Av… Pacific St               40.7            -74.0 B      Q     
+##  4 42nd… Grand Centr…             40.8            -74.0 GS     4     
+##  5 6 Av… 34th St                  40.7            -74.0 B      D     
+##  6 6 Av… 47-50th Sts…             40.8            -74.0 B      D     
+##  7 6 Av… Church Av                40.6            -74.0 F      &lt;NA&gt;  
+##  8 63rd… 21st St                  40.8            -73.9 F      &lt;NA&gt;  
+##  9 63rd… Lexington Av             40.8            -74.0 F      &lt;NA&gt;  
+## 10 63rd… Roosevelt I…             40.8            -74.0 F      &lt;NA&gt;  
+## # ... with 74 more rows, and 13 more variables: route3 &lt;chr&gt;,
+## #   route4 &lt;chr&gt;, route5 &lt;chr&gt;, route6 &lt;chr&gt;, route7 &lt;chr&gt;, route8 &lt;int&gt;,
+## #   route9 &lt;int&gt;, route10 &lt;int&gt;, route11 &lt;int&gt;, entry &lt;lgl&gt;,
+## #   vending &lt;chr&gt;, entrance_type &lt;chr&gt;, ada &lt;lgl&gt;</code></pre>
+<pre class="r"><code>my_nyc_transit_data3 =
+  my_nyc_transit_data %&gt;%
+  filter(vending == &quot;NO&quot;, entry == &quot;TRUE&quot;) %&gt;%
+  nrow() / nrow(my_nyc_transit_data)</code></pre>
+<p>Section 4</p>
+<pre class="r"><code>my_nyc_transit_data4 =
+  my_nyc_transit_data %&gt;%
+  distinct(line, station_name, .keep_all = TRUE)</code></pre>
 </div>
 <div id="problem-2" class="section level2">
 <h2>Problem 2</h2>

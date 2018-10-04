@@ -14,12 +14,52 @@ library(tidyverse)
 ```
 
 ## Problem 1
-```{r}
+
+Section 1
+
+```{r cleaned_my_nyc_transit_data}
 my_nyc_transit_data = 
   read_csv("./data/NYC_Transit_Subway_Entrance_And_Exit_Data.csv") %>%
   janitor::clean_names() %>%
   select(line, station_name, station_latitude, station_longitude, route1:route11, entry, vending, entrance_type, ada) %>%
   mutate(entry = recode(entry, "YES" = TRUE, "NO" = FALSE))
+```
+
+
+Section 2
+
+Write a short paragraph about this dataset – explain briefly what variables the dataset contains, describe your data cleaning steps so far, and give the dimension (rows x columns) of the resulting dataset. Are these data tidy?
+
+```{r}
+nrow(my_nyc_transit_data)
+ncol(my_nyc_transit_data)
+dim(my_nyc_transit_data)
+```
+
+The dataset consists of line, station name, station latitude and longitude, routes, entry, vending, entrance type, and ada. 
+
+Section 3
+
+```{r}
+my_nyc_transit_data2 = 
+  my_nyc_transit_data %>%
+  distinct(line, station_name, .keep_all = TRUE)
+
+filter(my_nyc_transit_data2, ada == "TRUE")
+
+my_nyc_transit_data3 =
+  my_nyc_transit_data %>%
+  filter(vending == "NO", entry == "TRUE") %>%
+  nrow() / nrow(my_nyc_transit_data)
+
+```
+
+Section 4
+
+```{r}
+my_nyc_transit_data4 =
+  my_nyc_transit_data %>%
+  distinct(line, station_name, .keep_all = TRUE)
 ```
 
 ## Problem 2
