@@ -2,7 +2,7 @@
 title: "p8105_hw2_bs3142"
 author: "Bingyu Sun"
 date: "9/30/2018"
-output: html_document
+output: github_document
 ---
 
 ```{r setup and load library}
