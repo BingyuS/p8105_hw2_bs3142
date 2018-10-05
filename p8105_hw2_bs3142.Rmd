@@ -17,12 +17,14 @@ knitr::opts_chunk$set(
 theme_set(theme_bw() + theme(legend.position = "bottom"))
 ```
 
-## Problem 1 NYC Transit Data
+## Problem 1    NYC Transit Data
 
-#### Section 1
-* Data cleaning
-    * Retain line, station, name, station latitude / longitude, routes served, entry, vending, entrance type, and ADA compliance
-    * Convert the entry variable from character to a logical variable 
+#### Section 1: Data Manipulation
+
+Data cleaning
+
+  * Retain line, station, name, station latitude / longitude, routes served, entry, vending, entrance type, and ADA compliance
+  * Convert the entry variable from character to a logical variable 
     
 ```{r clean_my_nyc_transit_data}
 my_nyc_transit_data = 
@@ -41,15 +43,11 @@ my_nyc_transit_data =
 3. Data assessment
     * The data is untidy. There are 11 columns of route numbers that should be organized into a single column under route number with a corresponding column for route names.
 
-Section 2
+#### Section 2: Data features
 
-Write a short paragraph about this dataset – explain briefly what variables the dataset contains, describe your data cleaning steps so far, and give the dimension (rows x columns) of the resulting dataset. Are these data tidy?
+1. How many distinct stations are there?
 
-The dataset consists of line, station name, station latitude and longitude, routes, entry, vending, entrance type, and ada. There are `r nrow(my_nyc_transit_data)` rows by `r ncol(my_nyc_transit_data)` columns.
-
-Section 3
-
-```{r}
+```{r Distinct stations: both by line and by name}
 distinct_my_nyc_transit_data = 
   my_nyc_transit_data %>%
   distinct(line, station_name, .keep_all = TRUE)
@@ -57,20 +55,28 @@ distinct_my_nyc_transit_data =
 nrow(distinct_my_nyc_transit_data)
 ```
 
+There are **465** distinct train stations.
+
+2. How many stations are ADA compliant?
+
 ```{r}
 distinct_my_nyc_transit_data %>%
   filter(ada == "TRUE") %>%
   count
 ```
 
+**84** of the 465 stations are ada compliant.
+
+3. What proportion of station entrances / exits without vending allow entrance?
+
 ```{r}
 nrow(filter(my_nyc_transit_data, vending == "NO", entry == "TRUE")) / nrow(filter(my_nyc_transit_data, vending == "NO"))
 ```
 
-There are 465 distinct train stations, and 84 of them are ada compliant. 0.0377
+**37.7%** of station without vending allow entrance.
 
 
-Section 4
+#### Section 3
 
 ```{r reformat my nyc transit data}
 tidy_my_nyc_transit_data =

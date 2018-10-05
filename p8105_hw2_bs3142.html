@@ -130,14 +130,12 @@ $(document).ready(function () {
 
 <div id="problem-1-nyc-transit-data" class="section level2">
 <h2>Problem 1 NYC Transit Data</h2>
-<div id="section-1" class="section level4">
-<h4>Section 1</h4>
-<ul>
-<li>Data cleaning
+<div id="section-1-data-manipulation" class="section level4">
+<h4>Section 1: Data Manipulation</h4>
+<p>Data cleaning</p>
 <ul>
 <li>Retain line, station, name, station latitude / longitude, routes served, entry, vending, entrance type, and ADA compliance</li>
 <li>Convert the entry variable from character to a logical variable</li>
-</ul></li>
 </ul>
 <pre class="r"><code>my_nyc_transit_data = 
   read_csv(&quot;./data/NYC_Transit_Subway_Entrance_And_Exit_Data.csv&quot;) %&gt;%
@@ -174,16 +172,22 @@ $(document).ready(function () {
 <li>The data is untidy. There are 11 columns of route numbers that should be organized into a single column under route number with a corresponding column for route names.</li>
 </ul></li>
 </ol>
-<p>Section 2</p>
-<p>Write a short paragraph about this dataset – explain briefly what variables the dataset contains, describe your data cleaning steps so far, and give the dimension (rows x columns) of the resulting dataset. Are these data tidy?</p>
-<p>The dataset consists of line, station name, station latitude and longitude, routes, entry, vending, entrance type, and ada. There are 1868 rows by 19 columns.</p>
-<p>Section 3</p>
+</div>
+<div id="section-2-data-features" class="section level4">
+<h4>Section 2: Data features</h4>
+<ol style="list-style-type: decimal">
+<li>How many distinct stations are there?</li>
+</ol>
 <pre class="r"><code>distinct_my_nyc_transit_data = 
   my_nyc_transit_data %&gt;%
   distinct(line, station_name, .keep_all = TRUE)
 
 nrow(distinct_my_nyc_transit_data)</code></pre>
 <pre><code>## [1] 465</code></pre>
+<p>There are <strong>465</strong> distinct train stations.</p>
+<ol start="2" style="list-style-type: decimal">
+<li>How many stations are ADA compliant?</li>
+</ol>
 <pre class="r"><code>distinct_my_nyc_transit_data %&gt;%
   filter(ada == &quot;TRUE&quot;) %&gt;%
   count</code></pre>
@@ -191,10 +195,16 @@ nrow(distinct_my_nyc_transit_data)</code></pre>
 ##       n
 ##   &lt;int&gt;
 ## 1    84</code></pre>
+<p><strong>84</strong> of the 465 stations are ada compliant.</p>
+<ol start="3" style="list-style-type: decimal">
+<li>What proportion of station entrances / exits without vending allow entrance?</li>
+</ol>
 <pre class="r"><code>nrow(filter(my_nyc_transit_data, vending == &quot;NO&quot;, entry == &quot;TRUE&quot;)) / nrow(filter(my_nyc_transit_data, vending == &quot;NO&quot;))</code></pre>
 <pre><code>## [1] 0.3770492</code></pre>
-<p>There are 465 distinct train stations, and 84 of them are ada compliant. 0.0377</p>
-<p>Section 4</p>
+<p><strong>37.7%</strong> of station without vending allow entrance.</p>
+</div>
+<div id="section-3" class="section level4">
+<h4>Section 3</h4>
 <pre class="r"><code>tidy_my_nyc_transit_data =
   my_nyc_transit_data %&gt;%
   gather(key = &quot;route_number&quot;, value = &quot;route_name&quot;, route1:route11) %&gt;%
