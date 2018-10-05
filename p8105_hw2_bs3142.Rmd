@@ -214,23 +214,30 @@ The dataset contains **`r length(unique(my_brfss_data$locationdesc))`** unique l
 
 In 2002, the median of the "Excellent" response value is **`r median(na.omit(cbind(my_brfss_data$excellent[my_brfss_data$year == 2002])))`**.
 
-#### Section 3: 
 
+#### Section 3: Plots
 
-```{r}
-hist_excellent_2002 = 
-  select(my_brfss_data, year, excellent) %>%
+1. **Histogram** of “Excellent” response values in the year 2002
+
+```{r Histogram of Excellent in 2002}
+my_brfss_data %>%
+  select(year, excellent) %>%
   filter(year == "2002") %>%
   ggplot(aes(x = excellent)) +
-  geom_histogram()
+  geom_histogram() +
+  labs(x = "Excellent",
+       title = "Histogram of Excellent response values in 2002")
 ```
 
-Scatterplot
-```{r}
-sp_excellent_nyc_qc_2002_2010 =
-  select(my_brfss_data, year, locationdesc, excellent) %>%
+2. **Scatterplot** showing the proportion of “Excellent” response values in New York County and Queens County (both in NY State) in each year from 2002 to 2010
+
+```{r Scatterplot of excellent response proportion in NY country and Queens County from 2002-2010}
+my_brfss_data %>%
+  select(year, locationdesc, excellent) %>%
   filter(locationdesc %in% c("NY - New York County", "NY - Queens County")) %>%
-  ggplot(aes(x = year, y = excellent)) +
-  geom_point()
+  ggplot(aes(x = year, y = excellent, color = locationdesc)) +
+  geom_point() +
+  geom_smooth(se = FALSE) +
+  labs(title = "Scatterplot of Excellent response proportion in New York County and Queens Country in 2002 to 2010")
 ```
 
