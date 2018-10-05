@@ -111,7 +111,8 @@ tidy_my_nyc_transit_data =
 * use reasonable variable names
 * omit rows that do not include dumpster-specific data
 * rounds the number of sports balls to the nearest integer and converts the result to an integer variable (using as.integer)
-```{r}
+
+```{r tidy my_wheel data}
 my_wheel_data =
   read_excel("./data/HealthyHarborWaterWheelTotals2018-7-28.xlsx", sheet = 1, range = cell_cols("Dumpster:Homes Powered")) %>%
   janitor::clean_names() %>%
@@ -124,9 +125,12 @@ my_wheel_data =
 
 **Data Cleaning**
 
-For each, omit rows without precipitation data and add a variable year. Next, combine datasets and convert month to a character variable (the variable month.name is built into R and should be useful).
+* Omit rows without precipitation data and add a variable year.
+* Combine datasets and convert month to a character variable (the variable month.name is built into R and should be useful).
 
-```{r}
+Prcp_2017:
+
+```{r tidy prcp_2017}
 my_prcp_2017_data = 
   readxl::read_excel("./data/HealthyHarborWaterWheelTotals2018-7-28.xlsx", sheet = 4, skip = 1) %>%
   janitor::clean_names() %>%
@@ -135,7 +139,9 @@ my_prcp_2017_data =
   filter(!is.na(month), !is.na(precipitation_in))
 ```
 
-```{r}
+Prcp_2016:
+
+```{r tidy prcp_2016}
 my_prcp_2016_data =
   readxl::read_excel("./data/HealthyHarborWaterWheelTotals2018-7-28.xlsx", sheet = 5, skip = 1) %>%
   janitor::clean_names() %>%
@@ -144,11 +150,31 @@ my_prcp_2016_data =
   filter(!is.na(month), !is.na(precipitation_in))
 ```
 
-```{r}
+Prcp 2016 & 2017:
+
+```{r combined 2016 and 2017 prcp}
 my_combined_prcp_data =
   bind_rows(my_prcp_2016_data, my_prcp_2017_data) %>%
   mutate(month = month.name[month])
 ```
+
+**Summary**
+
+**1. Mr. Trash Wheel**
+
+The dataset consists of **`r nrow(my_wheel_data)`** rows by **`r ncol(my_wheel_data)`** columns. There are **`r nrow(my_wheel_data)`** dumpsters recorded from year 2014 to 2018. Information like date, trash amount, and types are included. The median number of sports balls in a dumpster in 2016 was **`r median(na.omit(cbind(my_wheel_data$sports_balls[my_wheel_data$year == 2016])))`**.
+
+**2. Precipitation 2017**
+
+The dataset consists of `r nrow(my_prcp_2017_data)` observations of monthly amount of precipitation in 2017. The total precipitation in 2017 was **`r sum(my_prcp_2017_data$precipitation_in)`** inches.
+
+**3. Precipitation 2016**
+
+The dataset consists of `r nrow(my_prcp_2016_data)` observations of monthly amount of precipitation in 2016. The total precipitation in 2016 was **`r sum(my_prcp_2016_data$precipitation_in)`** inches.
+
+**4. Precipitation 2016 & 2017**
+
+The dataset is a combined dataset for 2016 and 2017 precipitation data. It consists of **`r nrow(my_combined_prcp_data)`** observations, one per month. One difference in the dataset is that the numeric monthes are converted to character variables.
 
 ### Problem 3
 
