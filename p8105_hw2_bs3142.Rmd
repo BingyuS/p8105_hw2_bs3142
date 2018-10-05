@@ -37,8 +37,7 @@ my_nyc_transit_data =
   janitor::clean_names() %>% # clean variable names
   select(line, station_name, station_latitude, station_longitude, route1:route11, entry, vending, entrance_type, ada) %>% 
   # specify variables
-  mutate(entry = recode(entry, "YES" = TRUE, "NO" = FALSE)) 
-# Convert entry variable to logical variable
+  mutate(entry = recode(entry, "YES" = TRUE, "NO" = FALSE)) # Convert entry variable to logical variable
 ```
 
 
@@ -86,8 +85,7 @@ distinct_my_nyc_transit_data %>%
 **3. What proportion of station entrances / exits without vending allow entrance?**
 
 ```{r Proportion of station without vending allow entrance}
-nrow(filter(my_nyc_transit_data, vending == "NO", entry == "TRUE")) / nrow(filter(my_nyc_transit_data, vending == "NO")) 
-# calc proportion
+nrow(filter(my_nyc_transit_data, vending == "NO", entry == "TRUE")) / nrow(filter(my_nyc_transit_data, vending == "NO")) # calc proportion
 ```
 
 **37.7%** of station without vending allow entrance.
@@ -218,8 +216,7 @@ my_brfss_data =
   spread(key = response, value = data_value) %>% 
   # reformat response
   janitor::clean_names() %>%
-  mutate(prop_excellent_and_very_good = (excellent + very_good))
-# add a column of proportion for excellent and very good
+  mutate(prop_excellent_and_very_good = (excellent + very_good)) # add a column of proportion for excellent and very good
 ```
 
 **Summary**
@@ -245,8 +242,7 @@ my_brfss_data %>%
   ggplot(aes(x = excellent)) +
   geom_histogram() +
   labs(x = "Excellent",
-       title = "Histogram of Excellent response values in 2002")
-# plot histogram
+       title = "Histogram of Excellent response values in 2002") # plot histogram
 ```
 
 2. **Scatterplot** showing the proportion of “Excellent” response values in New York County and Queens County (both in NY State) in each year from 2002 to 2010
@@ -259,7 +255,6 @@ my_brfss_data %>%
   ggplot(aes(x = year, y = excellent, color = locationdesc)) +
   geom_point() +
   geom_smooth(se = FALSE) +
-  labs(title = "Scatterplot of Excellent response proportion in New York County and Queens Country in 2002 to 2010")
-# plot scatterplot
+  labs(title = "Scatterplot of Excellent response proportion in New York County and Queens Country in 2002 to 2010") # plot scatterplot
 ```
 
