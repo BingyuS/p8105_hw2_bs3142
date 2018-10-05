@@ -271,8 +271,20 @@ nrow(distinct_my_nyc_transit_data)</code></pre>
 </div>
 <div id="problem-3" class="section level3">
 <h3>Problem 3</h3>
+<div id="section-1-data-import" class="section level4">
+<h4>Section 1: Data Import</h4>
 <pre class="r"><code>library(p8105.datasets)
 data(brfss_smart2010)</code></pre>
+</div>
+<div id="section-2-data-manipulation" class="section level4">
+<h4>Section 2: Data Manipulation</h4>
+<ul>
+<li>Format the data to use appropriate variable names</li>
+<li>Focus on the “Overall Health” topic</li>
+<li>Exclude variables for class, topic, question, sample size, and everything from lower confidence limit to GeoLocation</li>
+<li>Structure data so that values for Response (“Excellent” to “Poor”) are column names / variables which indicate the proportion of subjects with each response (which are values of Data_value in the original dataset)</li>
+<li>Create a new variable showing the proportion of responses that were “Excellent” or “Very Good”</li>
+</ul>
 <pre class="r"><code>my_brfss_data = 
   brfss_smart2010 %&gt;%
   janitor::clean_names() %&gt;%
@@ -281,37 +293,14 @@ data(brfss_smart2010)</code></pre>
   spread(key = response, value = data_value) %&gt;%
   janitor::clean_names() %&gt;%
   mutate(prop_excellent_and_very_good = (excellent + very_good))</code></pre>
-<pre class="r"><code>skimr::skim(my_brfss_data)</code></pre>
-<pre><code>## Skim summary statistics
-##  n obs: 2125 
-##  n variables: 9 
-## 
-## ── Variable type:character ─────────────────────────────────────────────────────────
-##      variable missing complete    n min max empty n_unique
-##  locationabbr       0     2125 2125   2   2     0       51
-##  locationdesc       0     2125 2125  15  33     0      404
-## 
-## ── Variable type:integer ───────────────────────────────────────────────────────────
-##  variable missing complete    n    mean   sd   p0  p25  p50  p75 p100
-##      year       0     2125 2125 2006.55 2.48 2002 2005 2007 2009 2010
-##      hist
-##  ▇▅▆▆▇▇▇▇
-## 
-## ── Variable type:numeric ───────────────────────────────────────────────────────────
-##                      variable missing complete    n  mean   sd   p0  p25
-##                     excellent       6     2119 2125 22.15 4.17  9.3 19.2
-##                          fair       3     2122 2125 10.5  3     2.7  8.3
-##                          good       9     2116 2125 29.22 3.83 16.4 26.7
-##                          poor       2     2123 2125  3.75 1.51  0.4  2.7
-##  prop_excellent_and_very_good      12     2113 2125 56.51 6.67 32.8 52.3
-##                     very_good       8     2117 2125 34.33 4.43 18.3 31.5
-##   p50  p75 p100     hist
-##  22   24.7 43.2 ▁▃▇▇▃▁▁▁
-##  10.3 12.3 24.5 ▁▅▇▆▂▁▁▁
-##  29.3 31.7 45.6 ▁▂▅▇▅▁▁▁
-##   3.6  4.5 12   ▂▇▇▃▁▁▁▁
-##  56.8 61.2 79.9 ▁▁▃▇▇▃▁▁
-##  34.4 37.3 51.1 ▁▁▃▇▇▃▁▁</code></pre>
+<p><strong>Summary</strong></p>
+<p><strong>1. How many unique locations are included in the dataset? Is every state represented? What state is observed the most?</strong></p>
+<p>The dataset contains <strong>404</strong> unique locations, in <strong>51</strong> states. Therefore, every state is represented. <strong>NJ</strong> (New Jersey) state is observed the most.</p>
+<p><strong>2. In 2002, what is the median of the “Excellent” response value?</strong></p>
+<p>In 2002, the median of the “Excellent” response value is <strong>23.6</strong>.</p>
+</div>
+<div id="section-3" class="section level4">
+<h4>Section 3:</h4>
 <pre class="r"><code>hist_excellent_2002 = 
   select(my_brfss_data, year, excellent) %&gt;%
   filter(year == &quot;2002&quot;) %&gt;%
@@ -323,6 +312,7 @@ data(brfss_smart2010)</code></pre>
   filter(locationdesc %in% c(&quot;NY - New York County&quot;, &quot;NY - Queens County&quot;)) %&gt;%
   ggplot(aes(x = year, y = excellent)) +
   geom_point()</code></pre>
+</div>
 </div>
 
 

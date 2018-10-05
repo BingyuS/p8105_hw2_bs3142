@@ -178,12 +178,22 @@ The dataset is a combined dataset for 2016 and 2017 precipitation data. It consi
 
 ### Problem 3
 
-```{r}
+#### Section 1: Data Import
+
+```{r import BRFSS data}
 library(p8105.datasets)
 data(brfss_smart2010)
 ```
 
-```{r}
+#### Section 2: Data Manipulation
+
+* Format the data to use appropriate variable names
+* Focus on the “Overall Health” topic
+* Exclude variables for class, topic, question, sample size, and everything from lower confidence limit to GeoLocation
+* Structure data so that values for Response (“Excellent” to “Poor”) are column names / variables which indicate the proportion of subjects with each response (which are values of Data_value in the original dataset)
+* Create a new variable showing the proportion of responses that were “Excellent” or “Very Good”
+
+```{r clean my_brfss_data}
 my_brfss_data = 
   brfss_smart2010 %>%
   janitor::clean_names() %>%
@@ -194,9 +204,18 @@ my_brfss_data =
   mutate(prop_excellent_and_very_good = (excellent + very_good))
 ```
 
-```{r}
-skimr::skim(my_brfss_data)
-```
+**Summary**
+
+**1. How many unique locations are included in the dataset? Is every state represented? What state is observed the most?**
+
+The dataset contains **`r length(unique(my_brfss_data$locationdesc))`** unique locations, in **`r length(unique(my_brfss_data$locationabbr))`** states. Therefore, every state is represented. **`r names(which.max(table(my_brfss_data$locationabbr)))`** (New Jersey) state is observed the most.
+
+**2. In 2002, what is the median of the “Excellent” response value?**
+
+In 2002, the median of the "Excellent" response value is **`r median(na.omit(cbind(my_brfss_data$excellent[my_brfss_data$year == 2002])))`**.
+
+#### Section 3: 
+
 
 ```{r}
 hist_excellent_2002 = 
