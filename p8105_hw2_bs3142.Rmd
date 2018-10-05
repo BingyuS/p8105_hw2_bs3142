@@ -88,7 +88,7 @@ distinct_my_nyc_transit_data %>%
 nrow(filter(my_nyc_transit_data, vending == "NO", entry == "TRUE")) / nrow(filter(my_nyc_transit_data, vending == "NO")) # calc proportion
 ```
 
-**37.7%** of station without vending allow entrance.
+**37.7%** of the station without vending allow entrance.
 
 
 
