@@ -17,11 +17,12 @@ knitr::opts_chunk$set(
 theme_set(theme_bw() + theme(legend.position = "bottom"))
 ```
 
-## Problem 1    NYC Transit Data
+### Problem 1    NYC Transit Data
+
 
 #### Section 1: Data Manipulation
 
-Data cleaning
+**Data cleaning**
 
   * Retain line, station, name, station latitude / longitude, routes served, entry, vending, entrance type, and ADA compliance
   * Convert the entry variable from character to a logical variable 
@@ -34,6 +35,7 @@ my_nyc_transit_data =
   mutate(entry = recode(entry, "YES" = TRUE, "NO" = FALSE))
 ```
 
+
 **Summary**
 
 1. Variables in the dataset
@@ -43,9 +45,11 @@ my_nyc_transit_data =
 3. Data assessment
     * The data is untidy. There are 11 columns of route numbers that should be organized into a single column under route number with a corresponding column for route names.
 
+
+
 #### Section 2: Data features
 
-1. How many distinct stations are there?
+**1. How many distinct stations are there?**
 
 ```{r Distinct stations: both by line and by name}
 distinct_my_nyc_transit_data = 
@@ -57,26 +61,30 @@ nrow(distinct_my_nyc_transit_data)
 
 There are **465** distinct train stations.
 
-2. How many stations are ADA compliant?
+**2. How many stations are ADA compliant?**
 
-```{r}
+```{r Number of stations that are ADA compliant}
 distinct_my_nyc_transit_data %>%
   filter(ada == "TRUE") %>%
   count
 ```
 
-**84** of the 465 stations are ada compliant.
+**84** of the 465 stations are ADA compliant.
 
-3. What proportion of station entrances / exits without vending allow entrance?
+**3. What proportion of station entrances / exits without vending allow entrance?**
 
-```{r}
+```{r Proportion of station without vending allow entrance}
 nrow(filter(my_nyc_transit_data, vending == "NO", entry == "TRUE")) / nrow(filter(my_nyc_transit_data, vending == "NO"))
 ```
 
 **37.7%** of station without vending allow entrance.
 
 
-#### Section 3
+
+#### Section 3: Reformat data
+
+
+* Transform route number and route name to distinct variables 
 
 ```{r reformat my nyc transit data}
 tidy_my_nyc_transit_data =
@@ -87,9 +95,11 @@ tidy_my_nyc_transit_data =
   filter(ada == "TRUE")
 ```
 
-There are 60 distinct stations serve Train A, and 17 of them are ADA compliant.
+**How many distinct stations serve the A train? Of the stations that serve the A train, how many are ADA compliant?**
 
-## Problem 2
+* There are **60** distinct stations serve Train A, and **17** of them are ADA compliant.
+
+### Problem 2
 
 Question 1
 ```{r}
@@ -125,7 +135,7 @@ my_combined_prcp_data =
   mutate(month = month.name[month])
 ```
 
-## Problem 3
+### Problem 3
 
 ```{r}
 library(p8105.datasets)

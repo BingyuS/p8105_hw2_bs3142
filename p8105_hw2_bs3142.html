@@ -128,11 +128,11 @@ $(document).ready(function () {
 </div>
 
 
-<div id="problem-1-nyc-transit-data" class="section level2">
-<h2>Problem 1 NYC Transit Data</h2>
+<div id="problem-1-nyc-transit-data" class="section level3">
+<h3>Problem 1 NYC Transit Data</h3>
 <div id="section-1-data-manipulation" class="section level4">
 <h4>Section 1: Data Manipulation</h4>
-<p>Data cleaning</p>
+<p><strong>Data cleaning</strong></p>
 <ul>
 <li>Retain line, station, name, station latitude / longitude, routes served, entry, vending, entrance type, and ADA compliance</li>
 <li>Convert the entry variable from character to a logical variable</li>
@@ -175,9 +175,7 @@ $(document).ready(function () {
 </div>
 <div id="section-2-data-features" class="section level4">
 <h4>Section 2: Data features</h4>
-<ol style="list-style-type: decimal">
-<li>How many distinct stations are there?</li>
-</ol>
+<p><strong>1. How many distinct stations are there?</strong></p>
 <pre class="r"><code>distinct_my_nyc_transit_data = 
   my_nyc_transit_data %&gt;%
   distinct(line, station_name, .keep_all = TRUE)
@@ -185,9 +183,7 @@ $(document).ready(function () {
 nrow(distinct_my_nyc_transit_data)</code></pre>
 <pre><code>## [1] 465</code></pre>
 <p>There are <strong>465</strong> distinct train stations.</p>
-<ol start="2" style="list-style-type: decimal">
-<li>How many stations are ADA compliant?</li>
-</ol>
+<p><strong>2. How many stations are ADA compliant?</strong></p>
 <pre class="r"><code>distinct_my_nyc_transit_data %&gt;%
   filter(ada == &quot;TRUE&quot;) %&gt;%
   count</code></pre>
@@ -195,27 +191,31 @@ nrow(distinct_my_nyc_transit_data)</code></pre>
 ##       n
 ##   &lt;int&gt;
 ## 1    84</code></pre>
-<p><strong>84</strong> of the 465 stations are ada compliant.</p>
-<ol start="3" style="list-style-type: decimal">
-<li>What proportion of station entrances / exits without vending allow entrance?</li>
-</ol>
+<p><strong>84</strong> of the 465 stations are ADA compliant.</p>
+<p><strong>3. What proportion of station entrances / exits without vending allow entrance?</strong></p>
 <pre class="r"><code>nrow(filter(my_nyc_transit_data, vending == &quot;NO&quot;, entry == &quot;TRUE&quot;)) / nrow(filter(my_nyc_transit_data, vending == &quot;NO&quot;))</code></pre>
 <pre><code>## [1] 0.3770492</code></pre>
 <p><strong>37.7%</strong> of station without vending allow entrance.</p>
 </div>
-<div id="section-3" class="section level4">
-<h4>Section 3</h4>
+<div id="section-3-reformat-data" class="section level4">
+<h4>Section 3: Reformat data</h4>
+<ul>
+<li>Transform route number and route name to distinct variables</li>
+</ul>
 <pre class="r"><code>tidy_my_nyc_transit_data =
   my_nyc_transit_data %&gt;%
   gather(key = &quot;route_number&quot;, value = &quot;route_name&quot;, route1:route11) %&gt;%
   distinct(line, station_name, .keep_all = TRUE) %&gt;%
   filter(route_name == &quot;A&quot;) %&gt;%
   filter(ada == &quot;TRUE&quot;)</code></pre>
-<p>There are 60 distinct stations serve Train A, and 17 of them are ADA compliant.</p>
+<p><strong>How many distinct stations serve the A train? Of the stations that serve the A train, how many are ADA compliant?</strong></p>
+<ul>
+<li>There are <strong>60</strong> distinct stations serve Train A, and <strong>17</strong> of them are ADA compliant.</li>
+</ul>
 </div>
 </div>
-<div id="problem-2" class="section level2">
-<h2>Problem 2</h2>
+<div id="problem-2" class="section level3">
+<h3>Problem 2</h3>
 <p>Question 1</p>
 <pre class="r"><code>my_wheel_data =
   readxl::read_excel(&quot;./data/HealthyHarborWaterWheelTotals2018-7-28.xlsx&quot;, sheet = 1, range = (&quot;A2:N338&quot;)) %&gt;%
@@ -239,8 +239,8 @@ nrow(distinct_my_nyc_transit_data)</code></pre>
   bind_rows(my_prcp_2016_data, my_prcp_2017_data) %&gt;%
   mutate(month = month.name[month])</code></pre>
 </div>
-<div id="problem-3" class="section level2">
-<h2>Problem 3</h2>
+<div id="problem-3" class="section level3">
+<h3>Problem 3</h3>
 <pre class="r"><code>library(p8105.datasets)
 data(brfss_smart2010)</code></pre>
 <pre class="r"><code>my_brfss_data = 
