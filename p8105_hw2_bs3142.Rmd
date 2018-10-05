@@ -5,7 +5,9 @@ date: "9/30/2018"
 output: html_document
 ---
 
-```{r setup, include=FALSE}
+```{r setup and load library}
+knitr::opts_chunk$set(echo = TRUE)
+
 library(tidyverse)
 library(readxl)
 
@@ -40,10 +42,15 @@ my_nyc_transit_data =
 **Summary**
 
 1. Variables in the dataset
+
     * The dataset contains information about NYC transit, like station location, routes served in each station, station entrance type, vending, and ADA compliance. 
+  
 2. Data cleaning steps
-    * I created a data frame for cleaning raw NYC Transit data. The dataset is imported using a relative path and names are cleaned by janitor function. Specific variables in the dateset are selected. Furthermore, the entry variable has been converted to a logical vector. The resulting dataset consists of `r nrow(my_nyc_transit_data)` rows by `r ncol(my_nyc_transit_data)` columns.
+
+    * I created a data frame for cleaning raw NYC Transit data. The dataset is imported using a relative path and names are cleaned by janitor function. Specific variables in the dateset are selected. Furthermore, the entry variable has been converted to a logical vector. The resulting dataset consists of **`r nrow(my_nyc_transit_data)`** rows by **`r ncol(my_nyc_transit_data)`** columns.
+  
 3. Data assessment
+
     * The data is untidy. There are 11 columns of route numbers that should be organized into a single column under route number with a corresponding column for route names.
 
 
