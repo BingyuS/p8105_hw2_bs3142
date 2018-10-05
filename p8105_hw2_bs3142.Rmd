@@ -8,14 +8,14 @@ output: html_document
 ```{r setup and load library}
 knitr::opts_chunk$set(echo = TRUE)
 
-library(tidyverse)
-library(readxl)
+library(tidyverse) # load tidyverse library
+library(readxl)    # load readxl library
 
 knitr::opts_chunk$set(
   fig.width = 6,
   fig.asp = .6,
   out.width = "90%"
-)
+)       # set graph format
 
 theme_set(theme_bw() + theme(legend.position = "bottom"))
 ```
@@ -32,10 +32,13 @@ theme_set(theme_bw() + theme(legend.position = "bottom"))
     
 ```{r clean_my_nyc_transit_data}
 my_nyc_transit_data = 
-  read_csv("./data/NYC_Transit_Subway_Entrance_And_Exit_Data.csv") %>%
-  janitor::clean_names() %>%
-  select(line, station_name, station_latitude, station_longitude, route1:route11, entry, vending, entrance_type, ada) %>%
-  mutate(entry = recode(entry, "YES" = TRUE, "NO" = FALSE))
+  read_csv("./data/NYC_Transit_Subway_Entrance_And_Exit_Data.csv") %>% 
+  # import nyc transit data
+  janitor::clean_names() %>% # clean variable names
+  select(line, station_name, station_latitude, station_longitude, route1:route11, entry, vending, entrance_type, ada) %>% 
+  # specify variables
+  mutate(entry = recode(entry, "YES" = TRUE, "NO" = FALSE)) 
+# Convert entry variable to logical variable
 ```
 
 
@@ -62,9 +65,10 @@ my_nyc_transit_data =
 ```{r Distinct stations: both by line and by name}
 distinct_my_nyc_transit_data = 
   my_nyc_transit_data %>%
-  distinct(line, station_name, .keep_all = TRUE)
+  distinct(line, station_name, .keep_all = TRUE) 
+# make stations distinct
 
-nrow(distinct_my_nyc_transit_data)
+nrow(distinct_my_nyc_transit_data) # count number of rows
 ```
 
 There are **465** distinct train stations.
@@ -73,8 +77,8 @@ There are **465** distinct train stations.
 
 ```{r Number of stations that are ADA compliant}
 distinct_my_nyc_transit_data %>%
-  filter(ada == "TRUE") %>%
-  count
+  filter(ada == "TRUE") %>% # get ADA compliant stations
+  count 
 ```
 
 **84** of the 465 stations are ADA compliant.
@@ -82,7 +86,8 @@ distinct_my_nyc_transit_data %>%
 **3. What proportion of station entrances / exits without vending allow entrance?**
 
 ```{r Proportion of station without vending allow entrance}
-nrow(filter(my_nyc_transit_data, vending == "NO", entry == "TRUE")) / nrow(filter(my_nyc_transit_data, vending == "NO"))
+nrow(filter(my_nyc_transit_data, vending == "NO", entry == "TRUE")) / nrow(filter(my_nyc_transit_data, vending == "NO")) 
+# calc proportion
 ```
 
 **37.7%** of station without vending allow entrance.
@@ -97,10 +102,11 @@ nrow(filter(my_nyc_transit_data, vending == "NO", entry == "TRUE")) / nrow(filte
 ```{r reformat my nyc transit data}
 tidy_my_nyc_transit_data =
   my_nyc_transit_data %>%
-  gather(key = "route_number", value = "route_name", route1:route11) %>%
+  gather(key = "route_number", value = "route_name", route1:route11) %>% 
+  # reformat route1 to route11 into two columns
   distinct(line, station_name, .keep_all = TRUE) %>%
-  filter(route_name == "A") %>%
-  filter(ada == "TRUE")
+  filter(route_name == "A") %>% # get stations that serve train A
+  filter(ada == "TRUE") # ADA compliant stations that serve train A
 ```
 
 **How many distinct stations serve the A train? Of the stations that serve the A train, how many are ADA compliant?**
@@ -121,11 +127,11 @@ tidy_my_nyc_transit_data =
 
 ```{r tidy my_wheel data}
 my_wheel_data =
-  read_excel("./data/HealthyHarborWaterWheelTotals2018-7-28.xlsx", sheet = 1, range = cell_cols("Dumpster:Homes Powered")) %>%
-  janitor::clean_names() %>%
-  select(-x_1) %>%
-  filter(!is.na(dumpster)) %>%
-  mutate(sports_balls = as.integer(sports_balls))
+  read_excel("./data/HealthyHarborWaterWheelTotals2018-7-28.xlsx", sheet = 1, range = cell_cols("Dumpster:Homes Powered")) %>% # import wheel data
+  janitor::clean_names() %>% # clean names
+  select(-x_1) %>% # remove notes
+  filter(!is.na(dumpster)) %>% # remove rows without dumpster info
+  mutate(sports_balls = as.integer(sports_balls)) # round values of sports balls to integers
 ```
 
 #### Section 2: Data Manipulation of prcp 2016 & 2017
@@ -139,30 +145,32 @@ Prcp_2017:
 
 ```{r tidy prcp_2017}
 my_prcp_2017_data = 
-  readxl::read_excel("./data/HealthyHarborWaterWheelTotals2018-7-28.xlsx", sheet = 4, skip = 1) %>%
-  janitor::clean_names() %>%
-  rename(precipitation_in = total) %>%
-  mutate(year = "2017") %>%
-  filter(!is.na(month), !is.na(precipitation_in))
+  readxl::read_excel("./data/HealthyHarborWaterWheelTotals2018-7-28.xlsx", sheet = 4, skip = 1) %>% # import 2017 precipitation data
+  janitor::clean_names() %>% # clean names
+  rename(precipitation_in = total) %>% # rename a column
+  mutate(year = "2017") %>% # add a column showing year
+  filter(!is.na(month), !is.na(precipitation_in)) # filter out NA
 ```
 
 Prcp_2016:
 
 ```{r tidy prcp_2016}
 my_prcp_2016_data =
-  readxl::read_excel("./data/HealthyHarborWaterWheelTotals2018-7-28.xlsx", sheet = 5, skip = 1) %>%
-  janitor::clean_names() %>%
-  rename(precipitation_in = total) %>%
-  mutate(year = "2016") %>%
-  filter(!is.na(month), !is.na(precipitation_in))
+  readxl::read_excel("./data/HealthyHarborWaterWheelTotals2018-7-28.xlsx", sheet = 5, skip = 1) %>% # import 2016 precipitation data
+  janitor::clean_names() %>% # clean names
+  rename(precipitation_in = total) %>% # rename a column
+  mutate(year = "2016") %>% # add a column showing year
+  filter(!is.na(month), !is.na(precipitation_in)) # filter out NA
 ```
 
 Prcp 2016 & 2017:
 
 ```{r combined 2016 and 2017 prcp}
 my_combined_prcp_data =
-  bind_rows(my_prcp_2016_data, my_prcp_2017_data) %>%
+  bind_rows(my_prcp_2016_data, my_prcp_2017_data) %>% 
+  # combine 2016 and 2017 data
   mutate(month = month.name[month])
+  # change month to month name
 ```
 
 **Summary**
@@ -189,7 +197,7 @@ The dataset is a combined dataset for 2016 and 2017 precipitation data. It consi
 
 ```{r import BRFSS data}
 library(p8105.datasets)
-data(brfss_smart2010)
+data(brfss_smart2010) # import BRFSS data
 ```
 
 #### Section 2: Data Manipulation
@@ -204,11 +212,14 @@ data(brfss_smart2010)
 my_brfss_data = 
   brfss_smart2010 %>%
   janitor::clean_names() %>%
-  filter(topic == "Overall Health") %>%
+  filter(topic == "Overall Health") %>% 
+  # select rows based on overall health
   select(-(class:question), -sample_size, -(confidence_limit_low:geo_location)) %>%
-  spread(key = response, value = data_value) %>%
+  spread(key = response, value = data_value) %>% 
+  # reformat response
   janitor::clean_names() %>%
   mutate(prop_excellent_and_very_good = (excellent + very_good))
+# add a column of proportion for excellent and very good
 ```
 
 **Summary**
@@ -230,10 +241,12 @@ In 2002, the median of the "Excellent" response value is **`r median(na.omit(cbi
 my_brfss_data %>%
   select(year, excellent) %>%
   filter(year == "2002") %>%
+  # retain only 2002 data
   ggplot(aes(x = excellent)) +
   geom_histogram() +
   labs(x = "Excellent",
        title = "Histogram of Excellent response values in 2002")
+# plot histogram
 ```
 
 2. **Scatterplot** showing the proportion of “Excellent” response values in New York County and Queens County (both in NY State) in each year from 2002 to 2010
@@ -242,9 +255,11 @@ my_brfss_data %>%
 my_brfss_data %>%
   select(year, locationdesc, excellent) %>%
   filter(locationdesc %in% c("NY - New York County", "NY - Queens County")) %>%
+  # retain New York County and Queens County info
   ggplot(aes(x = year, y = excellent, color = locationdesc)) +
   geom_point() +
   geom_smooth(se = FALSE) +
   labs(title = "Scatterplot of Excellent response proportion in New York County and Queens Country in 2002 to 2010")
+# plot scatterplot
 ```
 
