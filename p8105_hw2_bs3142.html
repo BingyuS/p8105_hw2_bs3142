@@ -214,15 +214,29 @@ nrow(distinct_my_nyc_transit_data)</code></pre>
 </ul>
 </div>
 </div>
-<div id="problem-2" class="section level3">
-<h3>Problem 2</h3>
-<p>Question 1</p>
+<div id="problem-2-mr.trash-wheel" class="section level3">
+<h3>Problem 2 Mr. Trash Wheel</h3>
+<div id="section-1-data-manipulation-of-mr.trash-wheel-sheet" class="section level4">
+<h4>Section 1: Data Manipulation of Mr. Trash Wheel sheet</h4>
+<p><strong>Data Cleaning</strong></p>
+<ul>
+<li>specify the sheet in the Excel file and to omit columns containing notes (using the range argument and cell_cols() function)</li>
+<li>use reasonable variable names</li>
+<li>omit rows that do not include dumpster-specific data</li>
+<li>rounds the number of sports balls to the nearest integer and converts the result to an integer variable (using as.integer)</li>
+</ul>
 <pre class="r"><code>my_wheel_data =
-  readxl::read_excel(&quot;./data/HealthyHarborWaterWheelTotals2018-7-28.xlsx&quot;, sheet = 1, range = (&quot;A2:N338&quot;)) %&gt;%
+  read_excel(&quot;./data/HealthyHarborWaterWheelTotals2018-7-28.xlsx&quot;, sheet = 1, range = cell_cols(&quot;Dumpster:Homes Powered&quot;)) %&gt;%
   janitor::clean_names() %&gt;%
+  select(-x_1) %&gt;%
   filter(!is.na(dumpster)) %&gt;%
   mutate(sports_balls = as.integer(sports_balls))</code></pre>
-<p>Question 2</p>
+<pre><code>## Warning in letter_to_num(x): NAs introduced by coercion to integer range</code></pre>
+</div>
+<div id="section-2-data-manipulation-of-prcp-2016-2017" class="section level4">
+<h4>Section 2: Data Manipulation of prcp 2016 &amp; 2017</h4>
+<p><strong>Data Cleaning</strong></p>
+<p>For each, omit rows without precipitation data and add a variable year. Next, combine datasets and convert month to a character variable (the variable month.name is built into R and should be useful).</p>
 <pre class="r"><code>my_prcp_2017_data = 
   readxl::read_excel(&quot;./data/HealthyHarborWaterWheelTotals2018-7-28.xlsx&quot;, sheet = 4, skip = 1) %&gt;%
   janitor::clean_names() %&gt;%
@@ -238,6 +252,7 @@ nrow(distinct_my_nyc_transit_data)</code></pre>
 <pre class="r"><code>my_combined_prcp_data =
   bind_rows(my_prcp_2016_data, my_prcp_2017_data) %&gt;%
   mutate(month = month.name[month])</code></pre>
+</div>
 </div>
 <div id="problem-3" class="section level3">
 <h3>Problem 3</h3>

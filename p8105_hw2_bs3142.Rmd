@@ -7,6 +7,7 @@ output: html_document
 
 ```{r setup, include=FALSE}
 library(tidyverse)
+library(readxl)
 
 knitr::opts_chunk$set(
   fig.width = 6,
@@ -99,18 +100,32 @@ tidy_my_nyc_transit_data =
 
 * There are **60** distinct stations serve Train A, and **17** of them are ADA compliant.
 
-### Problem 2
 
-Question 1
+### Problem 2 Mr. Trash Wheel
+
+#### Section 1: Data Manipulation of Mr. Trash Wheel sheet
+
+**Data Cleaning**
+
+* specify the sheet in the Excel file and to omit columns containing notes (using the range argument and cell_cols() function)
+* use reasonable variable names
+* omit rows that do not include dumpster-specific data
+* rounds the number of sports balls to the nearest integer and converts the result to an integer variable (using as.integer)
 ```{r}
 my_wheel_data =
-  readxl::read_excel("./data/HealthyHarborWaterWheelTotals2018-7-28.xlsx", sheet = 1, range = ("A2:N338")) %>%
+  read_excel("./data/HealthyHarborWaterWheelTotals2018-7-28.xlsx", sheet = 1, range = cell_cols("Dumpster:Homes Powered")) %>%
   janitor::clean_names() %>%
+  select(-x_1) %>%
   filter(!is.na(dumpster)) %>%
   mutate(sports_balls = as.integer(sports_balls))
 ```
 
-Question 2
+#### Section 2: Data Manipulation of prcp 2016 & 2017
+
+**Data Cleaning**
+
+For each, omit rows without precipitation data and add a variable year. Next, combine datasets and convert month to a character variable (the variable month.name is built into R and should be useful).
+
 ```{r}
 my_prcp_2017_data = 
   readxl::read_excel("./data/HealthyHarborWaterWheelTotals2018-7-28.xlsx", sheet = 4, skip = 1) %>%
